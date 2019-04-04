@@ -8,11 +8,11 @@ luftdaten:
 
 influxdb:
   enabled:  true
-  url:      'http://dmz-aircasting:8086/write?precision=s&db=test'
-  #url:      'http://serveur2.mobicitair.fr:8086/write?precision=s&db=test'
-  username: 'capto2018'
-  password: 'capto_2018 !'
-  node:     'raspi-000000009fb800ca'
-  site:     'site_test'
+  url:      'http://xxxx:8086/write?precision=s&db=test'
+  #url:      'http://xxxx:8086/write?precision=s&db=test'
+  username: 'xxxx'
+  password: 'xxxx'
+  node:     'xxxx'
+  site:     'xxxx'
 
 
