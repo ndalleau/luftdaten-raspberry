@@ -5,7 +5,7 @@ import os
 import yaml
 
 # Import-Pfade setzen
-sys.path.append(os.path.join(sys.path[0],"sds011"))
+sys.path.append(os.path.join(sys.path[0],"sds011"))  #Ajout module SDS011 au gestionnaire
 #sys.path.append(os.path.join(sys.path[0],"bme280"))
 
 import time
@@ -15,14 +15,27 @@ import numpy as np
 from sds011 import SDS011
 #from Adafruit_BME280 import *
 
+print("Repertoire en cours: ",os.getcwd())
+print("\n")
+
 # Config
 with open("config.yml", 'r') as ymlfile:
     config = yaml.load(ymlfile)
+    print("Fichier de configuration :")
+    print(config)
+    print("\n")
 
 # Logging
 import logging
 
-dusty = SDS011('/dev/ttyUSB0')
+i=0
+port = 'ttyUSB'+str(i)
+if port in os.listdir('/dev'):
+    print("Création objet capteur SDS011 sur port "+port)
+    dusty = SDS011(port)
+else:
+    print("Pas de capteur sur port "+port)
+    sys.exit()
 
 # Now we have some details about it
 print("SDS011 initialized: device_id={} firmware={}".format(dusty.device_id,dusty.firmware))
