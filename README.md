@@ -13,7 +13,7 @@ Le site luftdaten.info (https://luftdaten.info/) est issu d'un projet issu de l'
 # Dépendances
   apt install python3-numpy python3-requests python3-yaml python3-serial
   
-#Configuration
+# Configuration
 Modifier le fichier config.yml
 
 
