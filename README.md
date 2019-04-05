@@ -5,6 +5,7 @@ Un script python pour utiliser un raspberry pi (à la place d'un microcontrolleu
 
 Capteurs supportés:
   SDS011
+  
   Plantower (à venir)
   
 
