@@ -16,5 +16,7 @@ Le site luftdaten.info (https://luftdaten.info/) est issu d'un projet issu de l'
 # Configuration
 Modifier le fichier config.yml pour activer les API (Luftdaten et/ou InfluxDB)
 
+# Lancement
+python3 main.py
 
 
