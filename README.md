@@ -11,7 +11,7 @@ Le site luftdaten.info (https://luftdaten.info/) est issu d'un projet issu de l'
   Plantower PMSXXXX (à venir)
   
 # Dépendances
-  apt install python3-numpy python3-requests python3-yaml python3-serial
+  sudo apt install python3-numpy python3-requests python3-yaml python3-serial
   
 # Configuration
 Modifier le fichier config.yml pour activer les API (Luftdaten et/ou InfluxDB)
