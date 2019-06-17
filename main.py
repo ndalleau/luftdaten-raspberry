@@ -195,6 +195,7 @@ while True:
     print("Nombre de mesures:",n)
     run()
     n=n+1
+    print("Prochaine mesure dans ",config['acquisition']['sample']," secondes")
     time.sleep(config['acquisition']['sample']- ((time.time() - starttime) % config['acquisition']['sample']))
 
 print("Stopped")
