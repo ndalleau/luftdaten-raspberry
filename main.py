@@ -5,8 +5,8 @@ import os
 import yaml
 
 # Import-Pfade setzen
-sys.path.append(os.path.join(sys.path[0],"sds011"))  #Ajout module SDS011 au gestionnaire
-#sys.path.append(os.path.join(sys.path[0],"bme280"))
+sys.path.append(os.path.join(sys.path[0],"sds011"))  #Ajout module SDS011 au gestionnaire de module
+#sys.path.append(os.path.join(sys.path[0],"bme280")) #Ajout du module BME280 au gestionnaire de module
 
 import time
 import datetime as datetime
