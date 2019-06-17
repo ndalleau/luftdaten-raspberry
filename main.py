@@ -9,16 +9,33 @@ sys.path.append(os.path.join(sys.path[0],"sds011"))  #Ajout module SDS011 au ges
 #sys.path.append(os.path.join(sys.path[0],"bme280"))
 
 import time
+import datetime as datetime
+import pytz
+from datetime import timedelta
 import json
 import requests
 import numpy as np
 from sds011 import SDS011
 #from Adafruit_BME280 import *
 
+import argparse
+
+#Parseur ###################
+#Le parseur définit les paramètres à compléter lors du lancement du script
+#Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché, par défaut 0
+description = """description"""
+parseur = argparse.ArgumentParser(description=description)
+parseur.add_argument('-d','--device',dest='device',default=0 ,help='numero device dans /dev', type=int)
+parseur.add_argument('-s','--site',dest='site',default='site_test',help='site de mesures',type=str)
+
+args=parseur.parse_args()
+
+############################
+
 print("Repertoire en cours: ",os.getcwd())
 print("\n")
 
-# Config
+# Lecture fichier de configuration
 with open("config.yml", 'r') as ymlfile:
     config = yaml.load(ymlfile)
     print("Fichier de configuration :")
@@ -28,8 +45,11 @@ with open("config.yml", 'r') as ymlfile:
 # Logging
 import logging
 
-i=0
+#i=0 #Numero du SDS011 dans le repertoire /dev
+i = args.device
 port = "ttyUSB"+str(i)
+print("Port: ",port)
+print("Site: ",args.site)
 if port in os.listdir("/dev"):
     print("Création objet capteur SDS011 sur port "+port)
     dusty = SDS011("/dev/"+port)
@@ -120,7 +140,8 @@ def getSerial():
 
 def run():
     m = Measurement()
-
+    
+    print(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
     print('pm2.5     = {:f} '.format(m.pm25_value))
     print('pm10      = {:f} '.format(m.pm10_value))
     print('\n')
@@ -148,10 +169,17 @@ print("{0} {1}".format('Sensor Id: ',sensorID))
 print("*********************")
 
 #Corps du programme
+
+tz=pytz.timezone('Europe/Paris')
+deb=datetime.datetime.now()  #Date de début execution du script
+debText=deb.strftime('%Y-%m-%d %H:%M:%S')
+print("Debut execution du script: "+debText)
+
 while True:
     print('\n')
     print("running ...")
     run()
-    time.sleep(config['acquisition']['sample']- ((time.time() - starttime) % 60.0))
+    time.sleep(config['acquisition']['sample']- ((time.time() - starttime) % config['acquisition']['sample']))
 
 print("Stopped")
+
