@@ -23,6 +23,10 @@ import logging
 
 import argparse
 
+#Variables ##################################
+
+#############################################
+
 #Parseur ####################################
 #Le parseur définit les paramètres à compléter lors du lancement du script
 #Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché, par défaut 0
@@ -183,10 +187,14 @@ deb=datetime.datetime.now()  #Date de début execution du script
 debText=deb.strftime('%Y-%m-%d %H:%M:%S')
 print("Debut execution du script: "+debText)
 
+n=1
+
 while True:
     print('\n')
     print("running ...")
+    print("Nombre de mesures:",n)
     run()
+    n=n+1
     time.sleep(config['acquisition']['sample']- ((time.time() - starttime) % config['acquisition']['sample']))
 
 print("Stopped")
