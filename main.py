@@ -27,23 +27,23 @@ description = """description"""
 parseur = argparse.ArgumentParser(description=description)
 parseur.add_argument('-d','--device',dest='device',default=0 ,help='numero device dans /dev', type=int)
 parseur.add_argument('-s','--site',dest='site',default='site_test',help='site de mesures',type=str)
-
 args=parseur.parse_args()
-
 ############################
 
 print("Repertoire en cours: ",os.getcwd())
 print("\n")
 
-# Lecture fichier de configuration
+# Lecture fichier de configuration ##########
 with open("config.yml", 'r') as ymlfile:
     config = yaml.load(ymlfile)
     print("Fichier de configuration :")
     print(config)
     print("\n")
-
+##############################################
+    
 # Logging
 import logging
+
 
 #i=0 #Numero du SDS011 dans le repertoire /dev
 i = args.device
@@ -159,7 +159,7 @@ def run():
 sensorID  = config['luftdaten'].get('sensor') or ("raspi-" + getSerial())
 starttime = time.time()
 
-#Visualisation de la configuration
+#Visualisation de la configuration ########
 print("*** Configuration ***")
 print("Site de mesure: {0}".format(config['influxdb']['site']))
 print("Frequence echantillonnage en secondes: {0}".format(config['acquisition']['sample']))
@@ -167,6 +167,7 @@ print(config['luftdaten'].get('sensor'))
 print("Lecture du numero de serie raspi-" + getSerial())
 print("{0} {1}".format('Sensor Id: ',sensorID))
 print("*********************")
+############################################
 
 #Corps du programme
 
