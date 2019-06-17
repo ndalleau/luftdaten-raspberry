@@ -18,6 +18,9 @@ import numpy as np
 from sds011 import SDS011
 #from Adafruit_BME280 import *
 
+# Logging
+import logging
+
 import argparse
 
 #Parseur ####################################
@@ -37,12 +40,10 @@ with open("config.yml", 'r') as ymlfile:
     print(config)
     print("\n")
 ##############################################
-    
-# Logging
-import logging
+
 
 #Objet SDS01 #################################
-#i=0 #Numero du SDS011 dans le repertoire /dev
+#i=0 #Numero par défaut du SDS011 dans le repertoire /dev
 i = args.device
 port = "ttyUSB"+str(i)
 print("Port: ",port)
