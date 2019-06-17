@@ -20,7 +20,7 @@ from sds011 import SDS011
 
 import argparse
 
-#Parseur ###################
+#Parseur ####################################
 #Le parseur définit les paramètres à compléter lors du lancement du script
 #Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché, par défaut 0
 description = """description"""
@@ -28,10 +28,7 @@ parseur = argparse.ArgumentParser(description=description)
 parseur.add_argument('-d','--device',dest='device',default=0 ,help='numero device dans /dev', type=int)
 parseur.add_argument('-s','--site',dest='site',default='site_test',help='site de mesures',type=str)
 args=parseur.parse_args()
-############################
-
-print("Repertoire en cours: ",os.getcwd())
-print("\n")
+#############################################
 
 # Lecture fichier de configuration ##########
 with open("config.yml", 'r') as ymlfile:
@@ -44,7 +41,7 @@ with open("config.yml", 'r') as ymlfile:
 # Logging
 import logging
 
-
+#Objet SDS01 #################################
 #i=0 #Numero du SDS011 dans le repertoire /dev
 i = args.device
 port = "ttyUSB"+str(i)
@@ -62,6 +59,7 @@ print("SDS011 initialized: device_id={} firmware={}".format(dusty.device_id,dust
 
 # Set dutycyle to nocycle (permanent)
 dusty.dutycycle = 0
+##############################################
 
 class Measurement:
     def __init__(self):
@@ -129,7 +127,8 @@ class Measurement:
             }
         )
 
-# extracts serial from cpuinfo
+# extracts serial from cpuinfo ################################
+#Extraire le numéro du Raspberry pour envoyer avec les données
 def getSerial():
     """Fonction pour récupérer le numéro de série du raspberry"""
     with open('/proc/cpuinfo','r') as f:
@@ -137,7 +136,8 @@ def getSerial():
             if line[0:6]=='Serial':
                 return(line[10:26])
     raise Exception('CPU serial not found')
-
+###############################################################
+    
 def run():
     m = Measurement()
     
@@ -158,6 +158,12 @@ def run():
 
 sensorID  = config['luftdaten'].get('sensor') or ("raspi-" + getSerial())
 starttime = time.time()
+
+#Gestion du répertoire ####################
+print("Repertoire en cours: ",os.getcwd())
+print("\n")
+###########################################
+
 
 #Visualisation de la configuration ########
 print("*** Configuration ***")
