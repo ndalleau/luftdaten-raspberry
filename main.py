@@ -29,10 +29,10 @@ with open("config.yml", 'r') as ymlfile:
 import logging
 
 i=0
-port = 'ttyUSB'+str(i)
-if port in os.listdir('/dev'):
+port = "ttyUSB"+str(i)
+if port in os.listdir("/dev"):
     print("Création objet capteur SDS011 sur port "+port)
-    dusty = SDS011('/dev/'+port)
+    dusty = SDS011("/dev/"+port)
 else:
     print("Pas de capteur sur port "+port)
     sys.exit()
