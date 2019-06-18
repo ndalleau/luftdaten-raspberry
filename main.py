@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#Script pour lire les données d un SDS011 connecte en USB sur Raspberry
 
 import sys
 import os
