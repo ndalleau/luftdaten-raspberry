@@ -8,11 +8,11 @@ luftdaten:
 
 influxdb:
   enabled:  true
-  url:      'http://xxxx:8086/write?precision=s&db=test'
-  #url:      'http://xxxx:8086/write?precision=s&db=test'
+  url:      'http://xxxx:8086/write?precision=s&db=luftdaten_test'
+  #url:      'http://xxxx:8086/write?precision=s&db=luftdaten_test'
   username: 'xxxx'
   password: 'xxxx'
   node:     'xxxx'
-  site:     'xxxx'
+  site:     'test_site'
 
 
