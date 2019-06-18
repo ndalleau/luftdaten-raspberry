@@ -25,8 +25,11 @@ python3 main.py
 
 Il est possible de compléter avec des paramètres différent de celui du fichier de configuration lors du lancement du script
 python3 main.py --device ttyUSB0 --site site_mesures --sample 60
+
 --device ttyUSB0 correspond au numéro du port USB sur lequel est branché le SDS011
+
 --site site_mesure correspond au site de mesures (cette information remonte dans la base InfluxDB)
+
 --sample correspond à la durée entre deux mesures
 
 
