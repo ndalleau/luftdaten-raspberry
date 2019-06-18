@@ -30,6 +30,6 @@ python3 main.py --device ttyUSB0 --site site_mesures --sample 60
 
 --site site_mesure correspond au site de mesures (cette information remonte dans la base InfluxDB)
 
---sample correspond à la durée entre deux mesures
+--sample correspond à la durée en secondes entre deux mesures
 
 
