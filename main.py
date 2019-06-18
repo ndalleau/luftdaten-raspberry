@@ -33,32 +33,42 @@ ficConfig = "config.yml" #Fichier de configuration (port, bases, ecriture vers s
 # Lecture fichier de configuration ##########
 with open(ficConfig, 'r') as ymlfile:
     config = yaml.load(ymlfile)
+    print("\n")
     print("Lecture du fichier de configuration :")
     print(config)
     print("\n")
 ##############################################
 
+
 #Parseur ####################################
 #Le parseur définit les paramètres à compléter lors du lancement du script
 #Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché et du site de mesures, par défaut les paramètres du fichier de config sont appelés
-description = """description"""
+description = """Module python pour lire les données d un SDS011 branche sur port USB et export des données vers Luftdaten et base Influx Atmo"""
 parseur = argparse.ArgumentParser(description=description)
-parseur.add_argument('-d','--device',dest='device',default=config['acquisition']['port'] ,help='numero device dans /dev', type=str)
-parseur.add_argument('-s','--site',dest='site',default=config['influxdb']['site'],help='site de mesures',type=str)
+parseur.add_argument('-de','--device',dest='device',default=config['acquisition']['port'] ,help='numero device dans /dev', type=str)
+parseur.add_argument('-si','--site',dest='site',default=config['influxdb']['site'],help='site de mesures',type=str)
+parseur.add_argument('-sa','--sample',dest='sample',default=config['acquisition']['sample'],help='intervalle_entre_2_mesures',type=int)
 args=parseur.parse_args()
 #############################################
 
 
-
-
-#Objet SDS01 #################################
-#i=0 #Numero par défaut du SDS011 dans le repertoire /dev
+#Croisement fichier de config et parseur arguments #################################
 port = args.device
 if port != config['acquisition']['port']: print("Changement de device par rapport au fichier de configuration: ",config['acquisition']['port'])
 print("Port: ",port)
+print('\n')
 site = args.site
 if site != config['influxdb']['site']: print("Changement de site par rapport au chier de configuration: ",config['influxdb']['site'])
 print("Site: ",site)
+print('\n')
+sample = args.sample
+if sample != config['acquisition']['sample']: print("Changement de sample par rapport au fichier de configuration: ",config['acquisition']['sample'])
+print("Sample en secondes: ",sample)
+print('------')
+time.sleep(3)
+####################################################################################
+
+#Création Objet SDS01 #################################
 if port in os.listdir("/dev"):
     print("Création objet capteur SDS011 sur port "+port)
     dusty = SDS011("/dev/"+port)
@@ -98,9 +108,9 @@ class Measurement:
         if not cfg['enabled']:
             return
 
-        data = "feinstaub,node={},site={} SDS_P1={:0.2f},SDS_P2={:0.2f} ".format(
+        data = "luftdaten_esp,node={},site={} SDS_P1={:0.2f},SDS_P2={:0.2f} ".format(
             sensorID,
-            cfg['site'],
+            site,
             self.pm10_value,
             self.pm25_value,
             
@@ -162,9 +172,11 @@ def run():
     if config['influxdb']['enabled'] == True:
         print("{0}{1}".format("Send to InfluxDB: ",config['influxdb']['url']))
         m.sendInflux()
+        print("Send to InfluxDB: OK")
     if config['luftdaten']['enabled'] == True:
         print("Send to Luftdaten : ")
         m.sendLuftdaten()
+        print("Send to Luftdaten : OK")
     print("-------------------------")
 
 
@@ -177,10 +189,10 @@ print("\n")
 ###########################################
 
 
-#Visualisation du fichier de configuration ########
-print("*** Lecture fichier de configuration ***")
-print("Site de mesure: {0}".format(config['influxdb']['site']))
-print("Frequence echantillonnage en secondes: {0}".format(config['acquisition']['sample']))
+#Visualisation des parametres retenus ########
+print("*** Visualisation des paramètres de configuration retenus ***")
+print("Site de mesure: {0}".format(site))
+print("Frequence echantillonnage en secondes: {0}".format(sample))
 print(config['luftdaten'].get('sensor'))
 print("Lecture du numero de serie raspi-" + getSerial())
 print("{0} {1}".format('Sensor Id: ',sensorID))
@@ -202,8 +214,8 @@ while True:
     print("Nombre de mesures:",n)
     run()
     n=n+1
-    print("Prochaine mesure dans ",config['acquisition']['sample']," secondes")
-    time.sleep(config['acquisition']['sample']- ((time.time() - starttime) % config['acquisition']['sample']))
+    print("Prochaine mesure dans ",sample," secondes")
+    time.sleep(sample- ((time.time() - starttime) % sample))
 
 print("Stopped")
 
