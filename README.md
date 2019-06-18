@@ -2,7 +2,7 @@
 luftdaten 
 
 Ce script python permet d'utiliser un raspberry pi 3 à la place d'un microcontrolleur NodemCU ESP8266 pour acquérir les données d'un capteur de particules SDS011 et envoyer les résultats des mesures vers le site Luftdaten.info et une base de données InfluxDB.
-En effet, dans certains cas, il n'est pas possible d'avoir le wifi. L'utilisation d'un raspberry permet de s'affranchir des contraintes du wifi lorsque celui ci n'est pas disponible. Toutefois pour accéder à internet et notamment au site Luftdaten, il est possible de brancher le raspberry en ethernet.
+En effet, dans certains cas, il n'est pas possible d'avoir le wifi. L'utilisation d'un raspberry permet alors de s'affranchir des contraintes du wifi lorsque celui ci n'est pas disponible. Toutefois pour accéder à internet et notamment au site Luftdaten, il est possible de brancher le raspberry en ethernet.
 L'utilisation du Raspebbery permet aussi le stockage des données dans une base InfluxDB (déployée sur le raspberry) ou dans un fichier CSV (à venir). 
 
 # luftdaten
