@@ -18,10 +18,11 @@ Le site luftdaten.info (https://luftdaten.info/) est issu d'un projet issu de l'
   sudo apt install python3-numpy python3-requests python3-yaml python3-serial
   
 # Configuration
-Il faut modifier le fichier config.yml pour activer les API (Luftdaten et/ou InfluxDB)
+Il faut modifier le fichier config.yml pour activer les API (Envoi des données vers le site Luftdaten et/ou InfluxDB)
 
 # Lancement
 python3 main.py 
+
 Il est possible de compléter avec des paramètres différent de celui du fichier de configuration lors du lancement du script
 python3 main.py --device ttyUSB0 --site site_mesures --sample 60
 --device ttyUSB0 correspond au numéro du port USB sur lequel est branché le SDS011
