@@ -25,39 +25,45 @@ import logging
 import argparse
 
 #Variables ##################################
+ficConfig = "config.yml" #Fichier de configuration (port, bases, ecriture vers site Luftdaten)
 
-#############################################
 
-#Parseur ####################################
-#Le parseur définit les paramètres à compléter lors du lancement du script
-#Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché, par défaut 0
-description = """description"""
-parseur = argparse.ArgumentParser(description=description)
-parseur.add_argument('-d','--device',dest='device',default=0 ,help='numero device dans /dev', type=int)
-parseur.add_argument('-s','--site',dest='site',default='site_test',help='site de mesures',type=str)
-args=parseur.parse_args()
 #############################################
 
 # Lecture fichier de configuration ##########
-with open("config.yml", 'r') as ymlfile:
+with open(ficConfig, 'r') as ymlfile:
     config = yaml.load(ymlfile)
-    print("Fichier de configuration :")
+    print("Lecture du fichier de configuration :")
     print(config)
     print("\n")
 ##############################################
 
+#Parseur ####################################
+#Le parseur définit les paramètres à compléter lors du lancement du script
+#Dans le cas de ce script il s'agit du numéro ttyUSB sur lequel le SDS011 est branché et du site de mesures, par défaut les paramètres du fichier de config sont appelés
+description = """description"""
+parseur = argparse.ArgumentParser(description=description)
+parseur.add_argument('-d','--device',dest='device',default=config['acquisition']['port'] ,help='numero device dans /dev', type=str)
+parseur.add_argument('-s','--site',dest='site',default=config['influxdb']['site'],help='site de mesures',type=str)
+args=parseur.parse_args()
+#############################################
+
+
+
 
 #Objet SDS01 #################################
 #i=0 #Numero par défaut du SDS011 dans le repertoire /dev
-i = args.device
-port = "ttyUSB"+str(i)
+port = args.device
+if port != config['acquisition']['port']: print("Changement de device par rapport au fichier de configuration: ",config['acquisition']['port'])
 print("Port: ",port)
-print("Site: ",args.site)
+site = args.site
+if site != config['influxdb']['site']: print("Changement de site par rapport au chier de configuration: ",config['influxdb']['site'])
+print("Site: ",site)
 if port in os.listdir("/dev"):
     print("Création objet capteur SDS011 sur port "+port)
     dusty = SDS011("/dev/"+port)
 else:
-    print("Pas de capteur sur port "+port)
+    print("Attention: Pas de capteur detecté sur le port: "+port)
     sys.exit()
 
 # Now we have some details about it
@@ -171,15 +177,15 @@ print("\n")
 ###########################################
 
 
-#Visualisation de la configuration ########
-print("*** Configuration ***")
+#Visualisation du fichier de configuration ########
+print("*** Lecture fichier de configuration ***")
 print("Site de mesure: {0}".format(config['influxdb']['site']))
 print("Frequence echantillonnage en secondes: {0}".format(config['acquisition']['sample']))
 print(config['luftdaten'].get('sensor'))
 print("Lecture du numero de serie raspi-" + getSerial())
 print("{0} {1}".format('Sensor Id: ',sensorID))
 print("*********************")
-############################################
+###################################################
 
 #Corps du programme
 
