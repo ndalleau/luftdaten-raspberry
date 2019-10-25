@@ -1,6 +1,11 @@
 acquisition:
   port:     '/dev/ttyUSB0'
   sample:   60
+  
+site:
+  nom: 'site'
+  latitude: 45
+  longitude: 4.5
 
 luftdaten:
   enabled: true
