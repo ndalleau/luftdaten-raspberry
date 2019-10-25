@@ -4,8 +4,8 @@ acquisition:
   
 site:
   nom: 'site'
-  latitude: 45
-  longitude: 4.5
+  latitude: 45.1
+  longitude: 5.7
 
 luftdaten:
   enabled: true
